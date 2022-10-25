@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@tailwind base;
+a {
+    @apply text-blue-700;
+    text-decoration: none;
+}
+
+a:hover {
+    @apply underline;
+    text-decoration: none;
+}
+
+@tailwind components;
+@tailwind utilities;
+:root {
+    --blue: #0154B8;
+    --white: #ffffff;
+    --black: #343434;
+    --green: #63C37E;
+    --lightWhite: #E5E5E5;
+    --country: #5871B2;
+    --lightBlack: #707070;
+    --blackDownLoad: #454545;
+    --blackFooter: #383839;
+    --deepWhite: #F7F7F7;
+    --deepCharcoal: #454545;
+    --dark: #383839;
+    /* background gradient */
+    --background-all: linear-gradient(225deg, #FF6A00 0%, #EE0979 100%);
+    /* box-shadow */
+    --box-shadow-main: inset 0px 2px 20px rgba(0, 0, 0, 0.05);
+    --box-shadow: 0px 2px 4px rgba(136, 131, 131, 0.2);
+    /* border */
+    --border-main: 1px solid #F1F1F1;
+}
+
+
+/* end font-size */
+
+body {
+    overflow-x: hidden;
+    height: 100vw;
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Roboto, sans-serif
+}
+
+.container {
+    max-width: 1200px;
+}
+
+@import "../../src/components/index/data-access/css/index.css";
+@media only screen and (max-width:1366px) and (min-width: 1024px) {}
+
+@media only screen and (max-width:600px) {}

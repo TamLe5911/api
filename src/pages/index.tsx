@@ -1,51 +1,20 @@
-import { GetServerSideProps } from "next";
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import { Main } from "../layout/Main";
 import { Meta } from "../layout/Meta";
 import { AppConfig } from "../utils/AppConfig";
-import { fetchCompany } from "../utils/fetchCompany";
+import {IInfos} from "../../model/modelHome"
+import { getCompany } from "../api/getCompany/getCompany";
+import { GetServerSideProps } from "next";
+import NextLink from "next/link";
+import Router from "next/router";
+import Link from "next/link";
 
-type IInfos = {
-  minPrice:IMinPrice[];
-  topProducts: IProduct[];
-};
-type IMinPrice = {
-  currency: string;
-  price: number;
-  priceContent: string;
-};
-type IProduct = {
-  areaId: number;
-  image: string;
-  imageFill: string;
-  title: string;
-  countries: ICountry[];
-};
-type ICountry = {
-  areaId: number;
-  code: string;
-  countryId: number;
-  currency: string;
-  description: string;
-  flagCountry: string;
-  image: string;
-  imageJuris: string;
-  itemBrand: string;
-  itemCategory: string;
-  itemCategory2: string;
-  itemId: string;
-  itemVariant: number;
-  name: string;
-  orService: string;
-  pageId: number;
-  price: number;
-  priceContent: string;
-};
-
-
-const Index = (companys:IInfos) => {
-console.log(companys.topProducts)
-
+const Index = ({companys}: any) => {
+  const [infos, setInfos] = useState(companys as IInfos);
+  useEffect(() => {
+    setInfos((companys?.data || []) as IInfos);
+  }, []);
   return (
     <Main
       meta={
@@ -53,13 +22,43 @@ console.log(companys.topProducts)
       }
     >
   
-      {companys.minPrice}
+  <div className="tb-infomation margin-negative-5rem">
+      <div>
+        <h1>Đây là MinPrice</h1>
+
+        {Object.keys((infos && infos.minPrice) || {}).map((value, id) => {
+            return <p key={id}>{infos.minPrice[value]}</p>;
+          })}
+     
+      </div>
+      <NextLink href="/company" passHref>
+          <div >Company__</div>
+        </NextLink>
+      {Array.from(infos.topProducts || []).map((item) => {
+        return (
+          <div key={item.areaId} >
+            <h2>{item.title}</h2>
+            <img src={item.image} alt="" />
+            <img src={item.imageFill} alt="" />
+            {Array.from(item.countries || []).map((country, index) => (
+              <div key={index}>
+                <div onClick={()=>Router.push(`/company`)}>
+              <p>{country.name}</p>
+              <img src={country.imageJuris} alt="" />
+                  </div>
+              </div>
+            ))}
+          </div>
+        );
+      })}
+    </div>
     </Main>
   );
 };
-export const getServerSideProps: GetServerSideProps = async (
+
+export const getServerSideProps:GetServerSideProps = async (
 ) => {
-  const companys = await fetchCompany();
+  const companys = await getCompany();
   return {
     props: {
       companys,

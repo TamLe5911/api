@@ -14,7 +14,7 @@ export const get = async (path: string, options = {}) => {
 export const post = async (path: string, options = {}) => {
   const response = await request.post(path, body, options);
   const data = jose.decodeJwt(response.data);
-  console.log(data)
+  // console.log(data)
   return data;
 };
 

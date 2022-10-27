@@ -1,16 +1,17 @@
 
 import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
-import {INominee} from "../../../model/modelNominee"
-
+import {IInfos} from "../../../model/modelHome"
+import Router from "next/router";
 import {  GetStaticProps } from 'next';
 
 import { getNominee } from '../../api/getNominee/getNominee';
+import Link from "next/link";
 
 function Company({nominees}: any) {
-  const [infos, setInfos] = useState(nominees as INominee);
+  const [infos, setInfos] = useState(nominees as IInfos);
   useEffect(() => {
-    setInfos((nominees?.data || []) as INominee);
+    setInfos((nominees?.data || []) as IInfos);
   }, []);
   return (
     
@@ -31,22 +32,23 @@ function Company({nominees}: any) {
      
       </div>
       
-      {Array.from(infos.topProducts || []).map((item, id) => {
+      {Array.from(infos.topProducts || []).map((item) => {
         return (
-          <div key={id}>
-            <h2>{item.serviceName}</h2>
-            <NextLink
-              as={`/company/${id}`}
-              href={`/company/[id]`}
-              passHref
-              key={`/company/${id}`}
-            >
+          <div key={item.areaId} >
+            <h2>{item.title}</h2>
             <img src={item.image} alt="" />
-            </NextLink>
-            <p>{item.price}</p>
-            <p>{item.priceContent}</p>
-            <p>{item.currency}</p>
-           
+            <img src={item.imageFill} alt="" />
+            {Array.from(item.countries || []).map((country, index) => (
+              <div key={index}>
+                <div>
+                  <p>{country.description}</p>
+              <p>{country.name}</p>
+              <Link href={`/nominees/${item.areaId}`}>
+              <img src={country.imageJuris} alt="" />
+              </Link>
+                </div>
+              </div>
+            ))}
           </div>
         );
       })}

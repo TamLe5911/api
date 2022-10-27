@@ -8,7 +8,7 @@ import { getCompany } from "../api/getCompany/getCompany";
 import { GetServerSideProps } from "next";
 import NextLink from "next/link";
 import Router from "next/router";
-import Link from "next/link";
+
 
 const Index = ({companys}: any) => {
   const [infos, setInfos] = useState(companys as IInfos);
@@ -31,7 +31,7 @@ const Index = ({companys}: any) => {
           })}
      
       </div>
-      <NextLink href="/company" passHref>
+      <NextLink href="/nominees" passHref>
           <div >Company__</div>
         </NextLink>
       {Array.from(infos.topProducts || []).map((item) => {
@@ -42,7 +42,7 @@ const Index = ({companys}: any) => {
             <img src={item.imageFill} alt="" />
             {Array.from(item.countries || []).map((country, index) => (
               <div key={index}>
-                <div onClick={()=>Router.push(`/company`)}>
+                <div onClick={()=>Router.push(`/nominees`)}>
               <p>{country.name}</p>
               <img src={country.imageJuris} alt="" />
                   </div>
